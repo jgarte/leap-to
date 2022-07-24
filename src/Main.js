@@ -1,14 +1,24 @@
-const fs = require('fs');
-const os = require('os');
+import fs from 'fs';
+import os from 'os';
 
-exports.getArgs = () => process.argv.slice(2)
-exports.getHomedir = () => os.homedir();
-
-exports.retrieve = file => () => {
-    const contents = fs.readFileSync(file, { encoding: "utf-8" })
-    return JSON.parse(contents);
+export function getArgs() {
+    return process.argv.slice(2);
 }
-exports.store = data => file => () => {
-    const contents = JSON.stringify(data);
-    fs.writeFileSync(file, contents, { encoding: "utf-8" })
+
+export function getHomedir() {
+    return os.homedir();
+}
+
+export function retrieve(file) {
+    return () => {
+        const contents = fs.readFileSync(file, { encoding: "utf-8" })
+        return JSON.parse(contents);
+    };
+}
+
+export function store(data) {
+    return file => () => {
+        const contents = JSON.stringify(data);
+        fs.writeFileSync(file, contents, { encoding: "utf-8" })
+    };
 }
